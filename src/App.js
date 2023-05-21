@@ -1,23 +1,57 @@
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {BsSearch} from 'react-icons/bs';
 
 function App() {
+
+  const productList = [
+    "blue pants",
+    "black pant",
+    "blue shirt",
+    "black shoes",
+    "brown shoes", 
+    "white pant",
+    "white shoes", 
+    "red shirt", 
+    "gray pant", 
+    "white shirt", 
+    "golden shoes", 
+    "dark pant", 
+    "pink shirt", 
+    "yellow pant"
+  ];
+
+  const [products, setProducts] = useState(productList);
+  const [searchVal, setSearchVal] = useState("");
+
+  function handleSearchClick() {
+      if (searchVal === "") { setProducts(productList); return; }
+      const filterBySearch = productList.filter((item) => {
+          if (item.toLowerCase().includes(searchVal.toLowerCase())) { return item; }
+      })
+      setProducts(filterBySearch);
+  }
+
+  const mystyle = {
+      marginLeft: "600px",
+      marginTop: "20px",
+      fontWeight: "700",
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div style={mystyle}>
+        <input onChange={e => setSearchVal(e.target.value)} />
+        <BsSearch onClick={handleSearchClick} />
+      </div>
+      <div>
+        {products.map((product) => {
+          return (
+              <div style={mystyle}>{product}</div>
+            )
+          })
+        }
+      </div>
     </div>
   );
 }
